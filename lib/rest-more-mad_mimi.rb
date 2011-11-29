@@ -1,8 +1,6 @@
 require "rest-more-mad_mimi/version"
+require 'rest-core'
 
-module Rest
-  module More
-    module MadMimi
-    end
-  end
+module RestCore
+  autoload :MadMimi , 'rest-core/client/mad_mimi'
 end
