@@ -89,7 +89,7 @@ module RestCore::MadMimi::Client
 
   def audience_lists
     response = get('audience_lists/lists.xml')
-    Crack::XML.parse(response)['lists']['list'].map do |list|
+    Crack::XML.parse(response.body)['lists']['list'].map do |list|
       RestCore::MadMimi::AudienceList.new(self, list)
     end
   end
