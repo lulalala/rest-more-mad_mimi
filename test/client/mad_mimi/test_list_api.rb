@@ -25,7 +25,7 @@ describe RC::MadMimi, 'list api' do
         }
       }
     }
-    lists = @client.audience_lists
+    lists = @client.audience_lists.tap{}
     lists.size.should.eq(2)
     lists.first.tap do |first|
       first.client.should.eq(@client)
@@ -44,7 +44,7 @@ describe RC::MadMimi, 'list api' do
   should 'create audience list' do
     stub_request(:post, 'https://api.madmimi.com/audience_lists').
       with(:params => {:name => 'rc-test'})
-    @client.create_audience_list('rc-test').name.should.eq('rc-test')
+    @client.create_audience_list('rc-test').name.should.eq('rc-test').tap{}
 
     stub_request(:post, 'https://api.madmimi.com/audience_lists').
       to_return(:status => 400)

@@ -87,17 +87,17 @@ module RestCore::MadMimi::Client
   end
 
   def create_audience_list(name)
-    post('audience_lists', :name => name)
+    post('audience_lists', :name => name).tap{}
     RestCore::MadMimi::AudienceList.new(self, :name => name)
   end
 
   def rename_audience_list(name, new_name)
-    post("audience_lists/#{CGI.escape(name)}/rename", :name => new_name)
+    post("audience_lists/#{CGI.escape(name)}/rename", :name => new_name).tap{}
     RestCore::MadMimi::AudienceList.new(self, :name => new_name)
   end
 
   def destroy_audience_list(name)
-    post("audience_lists/#{CGI.escape(name)}", :_method => 'delete')
+    post("audience_lists/#{CGI.escape(name)}", :_method => 'delete').tap{}
   end
 
   # https://madmimi.com/developer/lists
@@ -105,12 +105,12 @@ module RestCore::MadMimi::Client
 
   def add_member_to_audience_list(list, email, options = {})
     options = {:email => email}.merge(options)
-    post("audience_lists/#{CGI.escape(list)}/add", options)
+    post("audience_lists/#{CGI.escape(list)}/add", options).tap{}
   end
 
   def remove_member_from_audience_list(list, email, options = {})
     options = {:email => email}.merge(options)
-    post("audience_lists/#{CGI.escape(list)}/remove", options)
+    post("audience_lists/#{CGI.escape(list)}/remove", options).tap{}
   end
 
   def query

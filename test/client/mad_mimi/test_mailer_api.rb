@@ -32,7 +32,7 @@ describe RC::MadMimi, 'mailer api' do
           to_return(:status => 400)
 
         lambda {
-          RC::MadMimi.new.mailer('anyone')
+          RC::MadMimi.new.mailer('anyone').tap{}
         }.should.raise(RestCore::MadMimi::Error)
       end
     end
@@ -61,7 +61,7 @@ describe RC::MadMimi, 'mailer api' do
           to_return(:status => 400)
 
         lambda {
-          RC::MadMimi.new.mailer_to_list('anyone')
+          RC::MadMimi.new.mailer_to_list('anyone').tap{}
         }.should.raise(RestCore::MadMimi::Error)
       end
     end
@@ -83,7 +83,7 @@ describe RC::MadMimi, 'mailer api' do
         stub_request(:get, 'https://api.madmimi.com/mailers/status/15498').
           to_return(:status => 400)
         lambda {
-          RC::MadMimi.new.status('15498')
+          RC::MadMimi.new.status('15498').tap{}
         }.should.raise(RestCore::MadMimi::Error)
       end
     end
