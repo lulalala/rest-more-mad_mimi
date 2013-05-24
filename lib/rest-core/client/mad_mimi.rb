@@ -1,18 +1,17 @@
 require 'rest-core'
 require 'crack/xml'
 
-RestCore::MadMimi = RestCore::Builder.client(:data, :username, :api_key,
-                                             :promotion_name) do
-  s = self.class # this is only for ruby 1.8!
-  use s::Timeout       , 300
-  use s::DefaultSite   , 'https://api.madmimi.com/'
-  use s::DefaultQuery  , {}
-  use s::Cache         , {}, 60 do
-    use s::ErrorHandler, lambda { |env|
-                           raise RestCore::MadMimi::Error.call(env) }
-    use s::ErrorDetectorHttp
+module RestCore
+  MadMimi = Builder.client(:data, :username, :api_key, :promotion_name) do
+    use Timeout       , 300
+    use DefaultSite   , 'https://api.madmimi.com/'
+    use DefaultQuery  , {}
+    use Cache         , {}, 60 do
+      use ErrorHandler, lambda { |env| MadMimi::Error.call(env) }
+      use ErrorDetectorHttp
+    end
+    use Defaults      , :data => {}
   end
-  use s::Defaults      , :data => {}
 end
 
 class RestCore::MadMimi::Error < RestCore::Error
@@ -128,4 +127,6 @@ module RestCore::MadMimi::Client
   end
 end
 
-RestCore::MadMimi.send(:include, RestCore::MadMimi::Client)
+class RestCore::MadMimi
+  include RestCore::MadMimi::Client
+end
