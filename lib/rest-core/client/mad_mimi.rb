@@ -16,9 +16,17 @@ RestCore::MadMimi = RestCore::Builder.client(:data, :username, :api_key,
 end
 
 class RestCore::MadMimi::Error < RestCore::Error
-  def self.call(env)
-    raise RestCore::MadMimi::Error,
-      "#{env[RestCore::RESPONSE_STATUS]} #{env[RestCore::RESPONSE_BODY]}"
+  include RestCore
+  attr_reader :error, :code, :url
+  def initialize error, code, url=''
+    @error, @code, @url = error, code, url
+    super("[#{code}] #{error.inspect} from #{url}")
+  end
+
+  def self.call env
+    error, code, url = env[RESPONSE_BODY], env[RESPONSE_STATUS],
+                       Middleware.request_uri(env)
+    new(error, code, url)
   end
 end
 
