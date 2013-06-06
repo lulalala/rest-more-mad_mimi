@@ -28,6 +28,7 @@ Gem::Specification.new do |gem|
   else
     gem.add_dependency(%q<rest-core>, [">= 2.0.3"])
   end
+  gem.add_dependency 'crack'
 
   gem.add_development_dependency 'bacon'
   gem.add_development_dependency 'rr'
